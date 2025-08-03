@@ -1,0 +1,54 @@
+# Docker Compose Development Environment Configuration
+# File: docker-compose.yml
+
+services:
+  dev-environment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-dev-env
+    hostname: dev-container
+    volumes:
+      # Persistent code directory
+      - ./workspace:/workspace
+      # Persistent VS Code configuration and extensions
+      - vscode-server:/root/.vscode-server
+      - vscode-extensions:/root/.vscode-server/extensions
+      # Persistent development tools configuration
+      - dev-config:/root/.config
+      - dev-cache:/root/.cache
+      # Shared host machine configurations (read-only)
+      - ~/.gitconfig:/root/.gitconfig:ro
+      - ~/.ssh:/root/.ssh:ro
+      # Shared host machine dependency directories (read-write, saves disk space)
+      - ~/.m2:/root/.m2
+      - ~/.gradle:/root/.gradle
+      - ~/go/pkg/mod:/go/pkg/mod
+      - ~/Library/Caches/go-build:/root/.cache/go-build
+      # Share existing Java dependencies if available
+      - ~/.ivy2:/root/.ivy2
+      # Python package cache sharing
+      - ~/.cache/pip:/root/.cache/pip
+    ports:
+      - "8080:8080"   # Common web development port
+      - "3000:3000"   # Node.js/React development port
+      - "5000:5000"   # Python Flask development port
+      - "8000:8000"   # Other web service port
+    environment:
+      - WORKSPACE=/workspace
+      - GOPROXY=https://goproxy.cn,direct
+      - GO111MODULE=on
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    working_dir: /workspace
+
+volumes:
+  vscode-server:
+    driver: local
+  vscode-extensions:
+    driver: local
+  dev-config:
+    driver: local
+  dev-cache:
+    driver: local
