@@ -83,8 +83,8 @@ RUN pip3 install --no-cache-dir \
 
 # Install Claude Code (correct installation method)
 # Note: Claude Code requires manual API key configuration after container startup
-# RUN curl -fsSL https://claude.ai/install.sh | bash \
-#     || echo "Claude Code installation may require manual configuration, please run setup after container startup"
+RUN curl -fsSL https://claude.ai/install.sh | bash \
+    || echo "Claude Code installation may require manual configuration, please run setup after container startup"
 
 # Alternative installation method: via npm (if needed)
 # RUN npm install -g @anthropic-ai/claude-code
