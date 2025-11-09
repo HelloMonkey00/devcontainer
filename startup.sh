@@ -3,15 +3,12 @@
 
 echo "🚀 Starting development environment..."
 
-# Initialize Go module directories
-mkdir -p /go/src /go/bin /go/pkg
-
 # Set Git safe directory
 git config --global --add safe.directory /workspace
 
 # Start code-server (VS Code Web version)
 echo "📝 Starting VS Code Server..."
-code-server --bind-addr 0.0.0.0:8080 --auth none /workspace &
+code-server --bind-addr 0.0.0.0:36000 --auth none /workspace &
 
 # Check Claude Code installation and configuration
 echo "🤖 Checking Claude Code configuration..."
@@ -37,11 +34,7 @@ echo "📁 Working directory: /workspace"
 echo "👤 Current user: $(whoami)"
 echo ""
 echo "Available development tools:"
-echo "  - Java $(java -version 2>&1 | head -n 1)"
-echo "  - Go $(go version)"
 echo "  - Python $(python --version)"
-echo "  - Maven $(mvn -version | head -n 1)"
-echo "  - Gradle $(gradle --version | head -n 1)"
 echo "  - Node.js $(node --version)"
 echo "  - Claude Code $(claude --version 2>/dev/null || echo 'needs configuration')"
 

@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     container_name: my-dev-env
     hostname: dev-container
+    network_mode: host
     volumes:
       # Persistent code directory
       - ./workspace:/workspace
@@ -20,24 +21,12 @@ services:
       # Shared host machine configurations (read-only)
       - ~/.gitconfig:/root/.gitconfig:ro
       - ~/.ssh:/root/.ssh:ro
-      # Shared host machine dependency directories (read-write, saves disk space)
-      - ~/.m2:/root/.m2
-      - ~/.gradle:/root/.gradle
-      - ~/go/pkg/mod:/go/pkg/mod
-      - ~/Library/Caches/go-build:/root/.cache/go-build
-      # Share existing Java dependencies if available
-      - ~/.ivy2:/root/.ivy2
       # Python package cache sharing
       - ~/.cache/pip:/root/.cache/pip
-    ports:
-      - "8080:8080"   # Common web development port
-      - "3000:3000"   # Node.js/React development port
-      - "5000:5000"   # Python Flask development port
-      - "8000:8000"   # Other web service port
     environment:
       - WORKSPACE=/workspace
-      - GOPROXY=https://goproxy.cn,direct
-      - GO111MODULE=on
+      - TZ=Asia/Shanghai
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
     stdin_open: true
     tty: true
     restart: unless-stopped
