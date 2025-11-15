@@ -1,0 +1,44 @@
+{
+  "name": "Development Environment",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev-environment",
+  "workspaceFolder": "/workspace",
+
+  // Run commands after container is created
+  "postCreateCommand": "echo 'Container is ready!'",
+
+  // Configure VS Code settings
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "files.watcherExclude": {
+          "**/node_modules/**": true,
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true
+        }
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+
+  // Keep container running
+  "shutdownAction": "stopCompose",
+
+  // Use the host network (already configured in docker-compose.yml)
+  "runArgs": [],
+
+  // Forward ports (optional, since we're using host network)
+  "forwardPorts": [],
+
+  // Set remote user
+  "remoteUser": "root"
+}
